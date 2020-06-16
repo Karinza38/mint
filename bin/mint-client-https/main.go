@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/bifurcation/mint"
+	"github.com/tatianab/mint"
 )
 
 var url string

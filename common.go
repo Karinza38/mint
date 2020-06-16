@@ -110,6 +110,36 @@ const (
 	Ed448   SignatureScheme = 0x0808
 )
 
+func (s SignatureScheme) String() string {
+	switch s {
+	case RSA_PKCS1_SHA1:
+		return "RSA_PKCS1_SHA1"
+	case RSA_PKCS1_SHA256:
+		return "RSA_PKCS1_SHA256"
+	case RSA_PKCS1_SHA384:
+		return "RSA_PKCS1_SHA384"
+	case RSA_PKCS1_SHA512:
+		return "RSA_PKCS1_SHA512"
+	case ECDSA_P256_SHA256:
+		return "ECDSA_P256_SHA256"
+	case ECDSA_P384_SHA384:
+		return "ECDSA_P384_SHA384"
+	case ECDSA_P521_SHA512:
+		return "ECDSA_P521_SHA512"
+	case RSA_PSS_SHA256:
+		return "RSA_PSS_SHA256"
+	case RSA_PSS_SHA384:
+		return "RSA_PSS_SHA384"
+	case RSA_PSS_SHA512:
+		return "RSA_PSS_SHA512"
+	case Ed25519:
+		return "Ed25519"
+	case Ed448:
+		return "Ed448"
+	}
+	return "invalid"
+}
+
 // enum {...} ExtensionType
 type ExtensionType uint16
 
@@ -145,6 +175,18 @@ const (
 	FFDHE6144 NamedGroup = 259
 	FFDHE8192 NamedGroup = 260
 )
+
+func (g NamedGroup) String() string {
+	switch g {
+	case P256:
+		return "P256"
+	case P384:
+		return "P384"
+	case P521:
+		return "P521"
+	}
+	return "unrecognized group"
+}
 
 // enum {...} PskKeyExchangeMode;
 type PSKKeyExchangeMode uint8

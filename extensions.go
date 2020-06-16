@@ -3,7 +3,8 @@ package mint
 import (
 	"bytes"
 	"fmt"
-	"github.com/bifurcation/mint/syntax"
+
+	"github.com/tatianab/mint/syntax"
 )
 
 type ExtensionBody interface {

@@ -13,7 +13,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bifurcation/mint"
+	"github.com/tatianab/mint"
 	"golang.org/x/net/http2"
 )
 

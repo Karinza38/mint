@@ -7,7 +7,7 @@ import (
 	"hash"
 	"reflect"
 
-	"github.com/bifurcation/mint/syntax"
+	"github.com/tatianab/mint/syntax"
 )
 
 // Server State Machine

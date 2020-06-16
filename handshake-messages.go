@@ -7,7 +7,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/bifurcation/mint/syntax"
+	"github.com/tatianab/mint/syntax"
 )
 
 type HandshakeMessageBody interface {
@@ -362,6 +362,14 @@ func (cv *CertificateVerifyBody) EncodeSignatureInput(data []byte) []byte {
 	return sigInput
 }
 
+func (cv *CertificateVerifyBody) EncodeSignatureInputWithContext(data []byte, context string) []byte {
+	sigInput := bytes.Repeat([]byte{0x20}, 64)
+	sigInput = append(sigInput, []byte(context)...)
+	sigInput = append(sigInput, []byte{0}...)
+	sigInput = append(sigInput, data...)
+	return sigInput
+}
+
 func (cv *CertificateVerifyBody) Sign(privateKey crypto.Signer, handshakeHash []byte) (err error) {
 	sigInput := cv.EncodeSignatureInput(handshakeHash)
 	cv.Signature, err = sign(cv.Algorithm, privateKey, sigInput)
@@ -373,6 +381,19 @@ func (cv *CertificateVerifyBody) Verify(publicKey crypto.PublicKey, handshakeHas
 	sigInput := cv.EncodeSignatureInput(handshakeHash)
 	logf(logTypeHandshake, "About to verify: alg=[%04x] sigInput=[%x], sig=[%x]", cv.Algorithm, sigInput, cv.Signature)
 	return verify(cv.Algorithm, publicKey, sigInput, cv.Signature)
+}
+
+func (cv *CertificateVerifyBody) VerifyWithContext(publicKey crypto.PublicKey, handshakeHash []byte, context string) error {
+	sigInput := cv.EncodeSignatureInputWithContext(handshakeHash, context)
+	logf(logTypeHandshake, "About to verify: alg=[%04x] sigInput=[%x], sig=[%x]", cv.Algorithm, sigInput, cv.Signature)
+	return verify(cv.Algorithm, publicKey, sigInput, cv.Signature)
+}
+
+func (cv *CertificateVerifyBody) SignWithContext(privateKey crypto.Signer, handshakeHash []byte, context string) (err error) {
+	sigInput := cv.EncodeSignatureInputWithContext(handshakeHash, context)
+	cv.Signature, err = sign(cv.Algorithm, privateKey, sigInput)
+	logf(logTypeHandshake, "Signed: alg=[%04x] sigInput=[%x], sig=[%x]", cv.Algorithm, sigInput, cv.Signature)
+	return
 }
 
 // struct {

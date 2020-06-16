@@ -187,6 +187,9 @@ func schemeValidForKey(alg SignatureScheme, key crypto.Signer) bool {
 	case *rsa.PrivateKey:
 		return sigType == signatureAlgorithmRSA_PKCS1 || sigType == signatureAlgorithmRSA_PSS
 	case *ecdsa.PrivateKey:
+		if curveFromNamedGroup(curveMap[alg]) != key.Public().(*ecdsa.PublicKey).Curve {
+			return false
+		}
 		return sigType == signatureAlgorithmECDSA
 	default:
 		return false
