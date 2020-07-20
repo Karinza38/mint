@@ -88,7 +88,7 @@ var (
 		return cipher.NewGCMWithNonceSize(block, 12)
 	}
 
-	cipherSuiteMap = map[CipherSuite]CipherSuiteParams{
+	CipherSuiteMap = map[CipherSuite]CipherSuiteParams{
 		TLS_AES_128_GCM_SHA256: {
 			Suite:      TLS_AES_128_GCM_SHA256,
 			Cipher:     newAESGCM,

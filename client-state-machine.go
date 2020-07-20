@@ -167,7 +167,7 @@ func (state clientStateStart) Next(hr handshakeMessageReader) (HandshakeState, [
 		offeredPSK = key
 
 		// Narrow ciphersuites to ones that match PSK hash
-		params, ok := cipherSuiteMap[key.CipherSuite]
+		params, ok := CipherSuiteMap[key.CipherSuite]
 		if !ok {
 			logf(logTypeHandshake, "[ClientStateStart] PSK for unknown ciphersuite")
 			return nil, nil, AlertInternalError
@@ -175,7 +175,7 @@ func (state clientStateStart) Next(hr handshakeMessageReader) (HandshakeState, [
 
 		compatibleSuites := []CipherSuite{}
 		for _, suite := range ch.CipherSuites {
-			if cipherSuiteMap[suite].Hash == params.Hash {
+			if CipherSuiteMap[suite].Hash == params.Hash {
 				compatibleSuites = append(compatibleSuites, suite)
 			}
 		}
@@ -405,7 +405,7 @@ func (state clientStateWaitSH) Next(hr handshakeMessageReader) (HandshakeState, 
 
 		// Hash the body into a pseudo-message
 		// XXX: Ignoring some errors here
-		params := cipherSuiteMap[hrr.CipherSuite]
+		params := CipherSuiteMap[hrr.CipherSuite]
 		h := params.Hash.New()
 		h.Write(state.clientHello.Marshal())
 		firstClientHello := &HandshakeMessage{
@@ -474,7 +474,7 @@ func (state clientStateWaitSH) Next(hr handshakeMessageReader) (HandshakeState, 
 	suite := sh.CipherSuite
 	state.Params.CipherSuite = suite
 
-	params, ok := cipherSuiteMap[suite]
+	params, ok := CipherSuiteMap[suite]
 	if !ok {
 		logf(logTypeCrypto, "Unsupported ciphersuite [%04x]", suite)
 		return nil, nil, AlertHandshakeFailure

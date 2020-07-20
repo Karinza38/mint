@@ -895,7 +895,7 @@ func (c *Conn) ConnectionState() ConnectionState {
 	}
 
 	if c.handshakeComplete {
-		state.CipherSuite = cipherSuiteMap[c.state.Params.CipherSuite]
+		state.CipherSuite = CipherSuiteMap[c.state.Params.CipherSuite]
 		state.NextProto = c.state.Params.NextProto
 		state.VerifiedChains = c.state.verifiedChains
 		state.PeerCertificates = c.state.peerCertificates

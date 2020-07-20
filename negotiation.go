@@ -79,7 +79,7 @@ func PSKNegotiation(identities []PSKIdentity, binders []PSKBinderEntry, context 
 			}
 		}
 
-		params, ok := cipherSuiteMap[psk.CipherSuite]
+		params, ok := CipherSuiteMap[psk.CipherSuite]
 		if !ok {
 			err := fmt.Errorf("tls.cryptoinit: Unsupported ciphersuite from PSK [%04x]", psk.CipherSuite)
 			return false, 0, nil, CipherSuiteParams{}, err

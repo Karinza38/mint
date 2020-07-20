@@ -194,7 +194,7 @@ func (state serverStateStart) Next(hr handshakeMessageReader) (HandshakeState, [
 			return nil, nil, AlertAccessDenied
 		}
 		var ok bool
-		initialCipherSuite, ok = cipherSuiteMap[cookie.CipherSuite]
+		initialCipherSuite, ok = CipherSuiteMap[cookie.CipherSuite]
 		if !ok {
 			logf(logTypeHandshake, fmt.Sprintf("[ServerStateStart] Cookie contained invalid cipher suite: %#x", cookie.CipherSuite))
 			return nil, nil, AlertInternalError
@@ -276,7 +276,7 @@ func (state serverStateStart) Next(hr handshakeMessageReader) (HandshakeState, [
 				shouldSendHRR = appCookie != nil
 			}
 			if shouldSendHRR {
-				params := cipherSuiteMap[connParams.CipherSuite]
+				params := CipherSuiteMap[connParams.CipherSuite]
 				h := params.Hash.New()
 				h.Write(clientHello.Marshal())
 				plainCookie, err := syntax.Marshal(cookie{
@@ -528,7 +528,7 @@ func (state serverStateNegotiated) Next(_ handshakeMessageReader) (HandshakeStat
 	}
 
 	// Look up crypto params
-	params, ok := cipherSuiteMap[sh.CipherSuite]
+	params, ok := CipherSuiteMap[sh.CipherSuite]
 	if !ok {
 		logf(logTypeCrypto, "Unsupported ciphersuite [%04x]", sh.CipherSuite)
 		return nil, nil, AlertHandshakeFailure
