@@ -513,7 +513,7 @@ func TestCertificateVerifyMarshalUnmarshal(t *testing.T) {
 
 	handshakeHash := []byte{0, 1, 2, 3}
 
-	privRSA, err := newSigningKey(RSA_PSS_SHA256)
+	privRSA, err := NewSigningKey(RSA_PSS_SHA256)
 	assertNotError(t, err, "failed to generate RSA private key")
 
 	// Test correctness of handshake type

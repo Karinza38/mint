@@ -142,13 +142,13 @@ func TestKeyAgreement(t *testing.T) {
 
 func TestNewSigningKey(t *testing.T) {
 	// Test RSA success
-	privRSA, err := newSigningKey(RSA_PKCS1_SHA256)
+	privRSA, err := NewSigningKey(RSA_PKCS1_SHA256)
 	assertNotError(t, err, "failed to generate RSA private key")
 	_, ok := privRSA.(*rsa.PrivateKey)
 	assertTrue(t, ok, "New RSA key was not actually an RSA key")
 
 	// Test ECDSA success (P-256)
-	privECDSA, err := newSigningKey(ECDSA_P256_SHA256)
+	privECDSA, err := NewSigningKey(ECDSA_P256_SHA256)
 	assertNotError(t, err, "failed to generate RSA private key")
 	_, ok = privECDSA.(*ecdsa.PrivateKey)
 	assertTrue(t, ok, "New ECDSA key was not actually an ECDSA key")
@@ -156,7 +156,7 @@ func TestNewSigningKey(t *testing.T) {
 	assertEquals(t, P256, namedGroupFromECDSAKey(pub))
 
 	// Test ECDSA success (P-384)
-	privECDSA, err = newSigningKey(ECDSA_P384_SHA384)
+	privECDSA, err = NewSigningKey(ECDSA_P384_SHA384)
 	assertNotError(t, err, "failed to generate RSA private key")
 	_, ok = privECDSA.(*ecdsa.PrivateKey)
 	assertTrue(t, ok, "New ECDSA key was not actually an ECDSA key")
@@ -164,7 +164,7 @@ func TestNewSigningKey(t *testing.T) {
 	assertEquals(t, P384, namedGroupFromECDSAKey(pub))
 
 	// Test ECDSA success (P-521)
-	privECDSA, err = newSigningKey(ECDSA_P521_SHA512)
+	privECDSA, err = NewSigningKey(ECDSA_P521_SHA512)
 	assertNotError(t, err, "failed to generate RSA private key")
 	_, ok = privECDSA.(*ecdsa.PrivateKey)
 	assertTrue(t, ok, "New ECDSA key was not actually an ECDSA key")
@@ -172,12 +172,12 @@ func TestNewSigningKey(t *testing.T) {
 	assertEquals(t, P521, namedGroupFromECDSAKey(pub))
 
 	// Test unsupported algorithm
-	_, err = newSigningKey(Ed25519)
+	_, err = NewSigningKey(Ed25519)
 	assertError(t, err, "Created a private key for an unsupported algorithm")
 }
 
 func TestSelfSigned(t *testing.T) {
-	priv, err := newSigningKey(ECDSA_P256_SHA256)
+	priv, err := NewSigningKey(ECDSA_P256_SHA256)
 	assertNotError(t, err, "Failed to create private key")
 
 	// Test success
@@ -204,9 +204,9 @@ func TestSignVerify(t *testing.T) {
 		20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
 		30, 31}
 
-	privRSA, err := newSigningKey(RSA_PSS_SHA256)
+	privRSA, err := NewSigningKey(RSA_PSS_SHA256)
 	assertNotError(t, err, "failed to generate RSA private key")
-	privECDSA, err := newSigningKey(ECDSA_P256_SHA256)
+	privECDSA, err := NewSigningKey(ECDSA_P256_SHA256)
 	assertNotError(t, err, "failed to generate ECDSA private key")
 
 	// Test successful signing with PKCS#1 when it is allowed

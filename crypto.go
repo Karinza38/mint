@@ -313,7 +313,7 @@ func keyAgreement(group NamedGroup, pub []byte, priv []byte) ([]byte, error) {
 	}
 }
 
-func newSigningKey(sig SignatureScheme) (crypto.Signer, error) {
+func NewSigningKey(sig SignatureScheme) (crypto.Signer, error) {
 	switch sig {
 	case RSA_PKCS1_SHA1, RSA_PKCS1_SHA256,
 		RSA_PKCS1_SHA384, RSA_PKCS1_SHA512,
@@ -619,7 +619,7 @@ func makeTrafficKeys(params CipherSuiteParams, secret []byte) KeySet {
 }
 
 func MakeNewSelfSignedCert(name string, alg SignatureScheme) (crypto.Signer, *x509.Certificate, error) {
-	priv, err := newSigningKey(alg)
+	priv, err := NewSigningKey(alg)
 	if err != nil {
 		return nil, nil, err
 	}
